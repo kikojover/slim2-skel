@@ -1,0 +1,17 @@
+<script type="text/javascript" src="{{ baseUrl() }}/assets/js/notify/pnotify.core.js"></script>
+<script type="text/javascript">
+    {% if flash.Error %}
+    new PNotify({
+      title: 'Error',
+      text: '{{ flash.Error }}',
+      type: 'error'
+    });
+    {% endif %}
+    {% if flash.Info %}
+    new PNotify({
+      title: 'Info',
+      text: '{{ flash.Info }}',
+      type: 'info'
+    });
+    {% endif %}
+</script>

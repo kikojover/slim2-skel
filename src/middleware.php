@@ -1,0 +1,24 @@
+<?php
+
+//Auth Middleware
+class AuthMiddleware extends \Slim\Middleware
+{
+    public function call()
+    {
+        // Get reference to application
+        $app = $this->app;
+
+        // // Run inner middleware and application
+        $this->next->call();
+
+        $user = $app->sentry->check();
+        $req = $app->request;
+        if(!$user){
+          if($req->getPath() != $req->getRootUri().'/login' && $req->getPath() != $req->getRootUri().'/auth'){
+              $app->redirect($app->urlFor('login'));
+          }
+        }
+
+    }
+}
+$app->add(new \AuthMiddleware());
