@@ -11,8 +11,8 @@ $app->get('/', function() use ($app){
 $app->get('/users/:id', function ($id) use ($app) {
     $user = $app->sentry->findUserById($id);
     $app->render('user.html', array(
-              'page_title' => $user->email,
-              'panel_title' => 'User details',
+              'page_title' => 'User details',
+              'panel_title' => $user->email,
               'user' => $user
           ));
 })->name('user');
@@ -40,7 +40,7 @@ $app->get('/users', function () use ($app) {
 
 $app->get('/login',function () use ($app) {
   $app->render('login.html', array(
-          'url_auth' => $app->urlFor('auth')
+          'page_title' => 'Login',
       ));
 })->setName('login');
 
