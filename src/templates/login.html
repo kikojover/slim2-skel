@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Slim2 Skeleton::Login</title>
+  <title>{{ app_name}}::{{ page_title }}</title>
 
   <!-- Bootstrap core CSS -->
 
@@ -45,7 +45,7 @@
     <div id="wrapper">
       <div id="login" class="animate form">
         <section class="login_content">
-          <form method="post" action="{{ url_auth }}" id="login-form">
+          <form method="post" action="{{ urlFor('auth') }}" id="login-form">
             <h1>Login Form</h1>
             <div>
               <input type="text" name="username" class="form-control" placeholder="Username" required="" />
