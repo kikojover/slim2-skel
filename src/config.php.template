@@ -1,0 +1,30 @@
+<?php
+//Edit configuration and rename as config.php
+$config_eloquent = array(
+    'driver'    => 'mysql',
+    'host'      => '',
+    'database'  => '',
+    'username'  => '',
+    'password'  => '',
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+);
+
+$config_phpmailer = array(
+    //By now, only SMTP server works.
+    //You could set or leave empty any param
+    //(if empty PHPMailer default params will be loaded)
+    'type' => 'smtp',
+    'config' => array(
+      'Host' => '',
+      'Port' => '',
+      'Username' => '',
+      'Password' => '',
+      'SMTPAuth' => true,
+      'AuthType' => '',
+      'SMTPSecure' => '',
+      'SMTPDebug' => '',
+    )
+);
+
+$app_name = 'Slim2 Skeleton';
