@@ -22,6 +22,18 @@ $app->sentry = new Sentry();
 $app->view = new \Slim\Views\Twig();
 $app->view->setTemplatesDirectory("src/templates");
 
+//PHPMailer configuration
+$mail = new PHPMailer();
+if($config_phpmailer['type'] == 'smtp'){
+  $mail->isSMTP();
+  foreach($config_phpmailer['config'] as $key => $value){
+    if(!empty($value)){
+      $mail->$key = $value;
+    }
+  }
+}
+$app->mail = $mail;
+
 // Twig configuration
 $view = $app->view();
 $view->parserOptions = array('debug' => true);
