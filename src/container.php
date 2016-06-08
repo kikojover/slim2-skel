@@ -40,4 +40,4 @@ $view->parserOptions = array('debug' => true);
 $view->parserExtensions = array(new \Slim\Views\TwigExtension());
 $twig_env = $view->getEnvironment();
 $twig_env->addGlobal('logged_user', $app->sentry->getUser());
-$twig_env->addGlobal('app_name', $app_name);
+$twig_env->addGlobal('app_name', $app->app_name);

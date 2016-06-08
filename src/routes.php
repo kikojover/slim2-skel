@@ -53,15 +53,122 @@ $app->get('/logout',function () use ($app) {
 $app->post('/auth',function () use ($app) {
   try{
     $user = $app->sentry->authenticate(array('email' => $app->request->params('username'),'password' => $app->request->params('password')));
-  }catch(\Exception $e){
-    $app->flash('Error', 'Wrong username or password.');
+    if($user){
+      $app->redirect($app->urlFor('home'));
+    }
+  }
+  catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
+  {
+    $app->flash('Error', 'Login field is required.');
+    $app->redirect($app->urlFor('login'));
+  }
+  catch (Cartalyst\Sentry\Users\PasswordRequiredException $e)
+  {
+    $app->flash('Error', 'Password field is required.');
+    $app->redirect($app->urlFor('login'));
+  }
+  catch (Cartalyst\Sentry\Users\WrongPasswordException $e)
+  {
+    $app->flash('Error', 'Wrong password, try again.');
+    $app->redirect($app->urlFor('login'));
+  }
+  catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+  {
+    $app->flash('Error', 'User was not found.');
+    $app->redirect($app->urlFor('login'));
+  }
+  catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
+  {
+    $app->flash('Error', 'User is not activated.');
+    $app->redirect($app->urlFor('login'));
+  }
+  // The following is only required if the throttling is enabled
+  catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e)
+  {
+    $app->flash('Error', 'User is suspended.');
+    $app->redirect($app->urlFor('login'));
+  }
+  catch (Cartalyst\Sentry\Throttling\UserBannedException $e)
+  {
+    $app->flash('Error', 'User is banned.');
     $app->redirect($app->urlFor('login'));
   }
 
-  if($user){
-    $app->redirect($app->urlFor('home'));
-  }
 })->setName('auth');
+
+$app->post('/lostpassword',function () use ($app) {
+  $email = $app->request->params('email');
+  try
+  {
+      // Find the user using the user email address
+      $user = $app->sentry->findUserByLogin($email);
+
+      // Get the password reset code
+      $resetCode = $user->getResetPasswordCode();
+
+      // Now you can send this code to your user via email for example.
+      $app->mail->setFrom('kiko@kikojover.es');
+      $app->mail->addAddress($email);
+      $app->mail->Subject = "[{$app->app_name}] Reset Password";
+      $app->mail->Body = $app->request->getUrl().$app->urlFor('resetpass',array('username' => $email,'passcode' =>  $resetCode));
+      $app->mail->send();
+      $app->flash('Info','We\'ve sent an email with instrucions');
+  }
+  catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+  {
+    $app->flash('Error','User was not found.');
+  }
+  $app->redirect($app->urlFor('login'));
+})->setName('lostpassword');
+
+$app->get('/resetpassword/:username/:passcode',function ($username,$passcode) use ($app){
+  $app->render('resetpassword.html',array(
+      'page_title' => 'Reset password',
+      'username' => $username,
+      'passcode' => $passcode
+  ));
+})->name('resetpass');
+
+$app->post('/resetpassword',function () use ($app){
+  $username = $app->request->post('username');
+  $passcode = $app->request->post('passcode');
+  $new_password = $app->request->post('password');
+  $repeat_password = $app->request->post('repassword');
+  if($new_password == $repeat_password){
+    try
+    {
+        // Find the user using the user id
+        $user = $app->sentry->findUserByLogin($username);
+
+        // Check if the reset password code is valid
+        if ($user->checkResetPasswordCode($passcode))
+        {
+            // Attempt to reset the user password
+            if ($user->attemptResetPassword($passcode, $new_password))
+            {
+              $app->flash('Info','Password reseted. You can login now');
+            }
+            else
+            {
+              $app->flash('Error','Password reset failed. Try again.');
+            }
+        }
+        else
+        {
+          $app->flash('Error','The provided password reset code is Invalid.');
+        }
+    }
+    catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+    {
+        $app->flash('Error','User was not found.');
+    }
+  }
+  else {
+    $app->flash('Error','Password mismatch.');
+  }
+  $app->redirect($app->urlFor('login'));
+
+})->name('doresetpass');
 
 // $app->get('/init', function (Request $request, Response $response, $args) {
 // //   $this->sentinel->getRoleRepository()->createModel()->create(array(

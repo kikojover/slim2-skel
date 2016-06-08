@@ -4671,12 +4671,12 @@ a.hiddenanchor {
   max-width: 350px;
   position: relative;
 }
-#register, #login {
+#lostpassword, #login {
   position: absolute;
   top: 0px;
   width: 100%;
 }
-#register {
+#lostpassword {
   z-index: 21;
   opacity: 0;
   width: 100%;
@@ -4684,7 +4684,7 @@ a.hiddenanchor {
 #login {
   z-index: 22;
 }
-#toregister:target ~ #wrapper #register, #tologin:target ~ #wrapper #login {
+#tolostpassword:target ~ #wrapper #lostpassword, #tologin:target ~ #wrapper #login {
   z-index: 22;
   -webkit-animation-name: fadeInLeft;
   -moz-animation-name: fadeInLeft;
@@ -4697,7 +4697,7 @@ a.hiddenanchor {
   -ms-animation-delay: .1s;
   animation-delay: .1s;
 }
-#toregister:target ~ #wrapper #login, #tologin:target ~ #wrapper #register {
+#tolostpassword:target ~ #wrapper #login, #tologin:target ~ #wrapper #lostpassword {
   -webkit-animation-name: fadeOutLeft;
   -moz-animation-name: fadeOutLeft;
   -ms-animation-name: fadeOutLeft;
