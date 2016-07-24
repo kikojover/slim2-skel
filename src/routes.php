@@ -1,5 +1,22 @@
 <?php
 
+$app->get('/:model', function ($model) use ($app){
+  $class = ucwords($model);
+  if(class_exists($class)){
+    $single = new $class();
+    $mod = $single->all();
+    $app->render('base_table.html',array(
+          'model' => $model,
+          'page_title' => $class,
+          'panel_title' => '',
+          'fields' => $single->list_fields,
+          'regs' => $mod
+          ));
+  }else{
+    $app->pass();
+  }
+});
+
 $app->get('/', function() use ($app){
   $app->render('dashboard.html', array(
             'page_title' => 'Dashboard',

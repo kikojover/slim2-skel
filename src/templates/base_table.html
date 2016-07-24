@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block main %}
+      <table class="table table-striped jambo_table">
+        <thead>
+          <tr>
+            <th>#</th>
+            {% for field in fields %}
+            <th>{{ field }}</th>
+            {% endfor %}
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for reg in regs %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            {% for field in fields %}
+            <td>{{ reg[field] }}</td>
+            {% endfor %}
+            <td>
+              <a href="{{ model }}/{{ reg.id }}" title="Edit"><i class="fa fa-edit fa-lg"></i></a>
+              <!-- <a href="path_for('delete',{'id':userid})"><i class="fa fa-remove"></i></a> -->
+              <a href="#" title="Delete"><i class="fa fa-remove fa-lg"></i></a>
+              <a href="#" title="Create"><i class="fa fa-plus fa-lg"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+{% endblock %}
