@@ -46,20 +46,20 @@
       <div id="login" class="animate form">
         <section class="login_content">
           <form method="post" action="{{ urlFor('auth') }}" id="login-form">
-            <h1>Login Form</h1>
+            <h1>{{ "Login Form"|trans }}</h1>
             <div>
-              <input type="text" name="username" class="form-control" placeholder="Username" required="" />
+              <input type="text" name="username" class="form-control" placeholder="{{ "Username"|trans }}" required="" />
             </div>
             <div>
-              <input type="password" name="password" class="form-control" placeholder="Password" required="" />
+              <input type="password" name="password" class="form-control" placeholder="{{ "Password"|trans }}" required="" />
             </div>
             <div>
-              <a class="btn btn-default submit" href="#" onclick="$('#login-form').submit();">Log in</a>
+              <a class="btn btn-default submit" href="#" onclick="$('#login-form').submit();">{{ "Log in"|trans }}</a>
             </div>
             <div class="clearfix"></div>
             <div class="separator">
               <p class="change_link">
-                <a href="#tolostpassword" class="to_lostpassword"> Lost your password?</a>
+                <a href="#tolostpassword" class="to_lostpassword">{{ "Lost your password?"|trans }}</a>
                 <a class="reset_pass" href="#"></a>
               </p>
             </div>
@@ -76,18 +76,18 @@
       <div id="lostpassword" class="animate form">
         <section class="login_content">
           <form method="post" action="{{ urlFor('lostpassword') }}" id="lostpass-form">
-            <h1>Lost password</h1>
+            <h1>{{ "Lost password"|trans }}</h1>
             <div>
               <input type="email" name='email' class="form-control" placeholder="Email" required="" />
             </div>
             <div>
-              <a class="btn btn-default submit" href="#" onclick="$('#lostpass-form').submit();">Submit</a>
+              <a class="btn btn-default submit" href="#" onclick="$('#lostpass-form').submit();">{{ "Submit"|trans }}</a>
             </div>
             <div class="clearfix"></div>
             <div class="separator">
 
               <p class="change_link">
-                <a href="#tologin" class="to_register"> Log in </a>
+                <a href="#tologin" class="to_register">{{ "Log in"|trans }}</a>
               </p>
               <div class="clearfix"></div>
               <br />

@@ -3,14 +3,14 @@
     {% if flash.Error %}
     new PNotify({
       title: 'Error',
-      text: '{{ flash.Error }}',
+      text: '{{ flash.Error|trans }}',
       type: 'error'
     });
     {% endif %}
     {% if flash.Info %}
     new PNotify({
       title: 'Info',
-      text: '{{ flash.Info }}',
+      text: '{{ flash.Info|trans }}',
       type: 'info'
     });
     {% endif %}
