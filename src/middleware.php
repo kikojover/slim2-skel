@@ -14,8 +14,7 @@ class AuthMiddleware extends \Slim\Middleware
         $user = $app->sentry->check();
         $req = $app->request;
         if(!$user){
-          // var_dump($req->getUrl(),$req->getRootUri().'/resetpassword');exit;
-          if(!strpos($req->getPath(),'/resetpassword') && $req->getPath() != $req->getRootUri().'/lostpassword' && $req->getPath() != $req->getRootUri().'/login' && $req->getPath() != $req->getRootUri().'/auth'){
+          if(strpos($req->getPath(),'/resetpassword') === false && $req->getPath() != $req->getRootUri().'/lostpassword' && $req->getPath() != $req->getRootUri().'/login' && $req->getPath() != $req->getRootUri().'/auth'){
               $app->redirect($app->urlFor('login'));
           }
         }
