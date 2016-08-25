@@ -1,5 +1,5 @@
 <?php
-return array(
+$lang = array(
     //Notifications
     //ERROR
     'Login field is required.' => 'Es necesario introducir el usuario.',
@@ -30,3 +30,10 @@ return array(
     'Delete' => 'Borrar',
     'Users' => 'Usuarios'
 );
+
+if(file_exists('src/lang/'.basename(__FILE__,'.php').'_ovr.php')){
+    include('src/lang/'.basename(__FILE__,'.php').'_ovr.php');
+    $lang = array_merge($lang,$lang_ovr);
+}
+
+return $lang;
