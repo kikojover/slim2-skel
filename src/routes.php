@@ -4,8 +4,9 @@ $app->get('/:model', function ($model) use ($app){
   $class = ucwords($model);
   if(class_exists($class)){
     $single = new $class();
+    $template = (!is_null($single->template) ? $single->tmeplate : 'base_table.html');
     $mod = $single->all();
-    $app->render('base_table.html',array(
+    $app->render($template,array(
           'model' => $model,
           'page_title' => $class,
           'panel_title' => '',
