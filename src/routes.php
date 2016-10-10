@@ -18,6 +18,84 @@ $app->get('/:model', function ($model) use ($app){
   }
 });
 
+$app->get('/pdf/:model/:id', function ($model,$id) use ($app){
+  $class = ucwords($model);
+  if(class_exists($class)){
+    $single = $class::find($id);
+    $app->response->headers->set('Content-type', 'application/pdf');
+    $app->response->write($single->pdf('pdf','S'));
+  }else{
+    $app->pass();
+  }
+});
+
+$app->get('/:model/:id', function ($model,$id) use ($app){
+  $class = ucwords($model);
+  if(class_exists($class)){
+    $single = $class::find($id);
+    $single->format();
+    $template = (!is_null($single->template_view) ? $single->template_view : 'base_view.html');
+    $app->render($template,array(
+          'model' => $model,
+          'page_title' => $class,
+          'panel_title' => '',
+          'fields' => $single->view_fields,
+          'obj' => $single
+          ));
+  }else{
+    $app->pass();
+  }
+});
+
+$app->put('/:model/:id', function ($model,$id) use ($app){
+  $class = ucwords($model);
+  if(class_exists($class)){
+    $single = $class::find($id);
+    $single->update($app->request->params());
+    $template = (!is_null($single->template_view) ? $single->template_view : 'base_view.html');
+    $app->render($template,array(
+          'model' => $model,
+          'page_title' => $class,
+          'panel_title' => '',
+          'fields' => $single->view_fields,
+          'obj' => $single
+          ));
+  }else{
+    $app->pass();
+  }
+});
+
+$app->post('/:model', function ($model) use ($app){
+  $class = ucwords($model);
+  if(class_exists($class)){
+    $single = new $class();
+    $single->store($app->request->params());
+    $template = (!is_null($single->template) ? $single->template : 'base_table.html');
+    $mod = $single->all();
+    $app->render($template,array(
+          'model' => $model,
+          'page_title' => $class,
+          'panel_title' => '',
+          'fields' => $single->list_fields,
+          'regs' => $mod,
+          'obj' => $single
+          ));
+  }else{
+    $app->pass();
+  }
+});
+
+$app->delete('/:model/:id', function ($model,$id) use ($app){
+  $class = ucwords($model);
+  if(class_exists($class)){
+    $single = $class::find($id);
+    $single->delete();
+    $app->redirect($app->request->getRootUri().'/'.$model);
+  }else{
+    $app->pass();
+  }
+});
+
 $app->get('/', function() use ($app){
   $app->render('dashboard.html', array(
             'page_title' => 'Dashboard',
