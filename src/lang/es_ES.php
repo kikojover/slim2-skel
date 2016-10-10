@@ -28,7 +28,8 @@ $lang = array(
     'Create' => 'Crear',
     'Edit' => 'Editar',
     'Delete' => 'Borrar',
-    'Users' => 'Usuarios'
+    'Users' => 'Usuarios',
+    'Save' => 'Guardar'
 );
 
 if(file_exists('src/lang/'.basename(__FILE__,'.php').'_ovr.php')){
