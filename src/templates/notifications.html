@@ -14,4 +14,11 @@
       type: 'info'
     });
     {% endif %}
+    {% if flash.Success %}
+    new PNotify({
+      title: 'Success',
+      text: '{{ flash.Success|trans }}',
+      type: 'success'
+    });
+    {% endif %}
 </script>
