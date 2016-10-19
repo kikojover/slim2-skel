@@ -24,6 +24,7 @@ $lang = array(
     'Lost password' => 'Recuperar contraseña',
     
     //General
+    'Users' => 'Usuarios',
     'Profile' => 'Perfil',
     'Log Out' => 'Salir',
     'Home' => 'Inicio',
@@ -31,7 +32,7 @@ $lang = array(
     'Create' => 'Crear',
     'Edit' => 'Editar',
     'Delete' => 'Borrar',
-    'Users' => 'Usuarios',
+    'Deleted' => 'Borrado',
     'Save' => 'Guardar',
     'Saved' => 'Guardado'
 );

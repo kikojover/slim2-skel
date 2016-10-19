@@ -53,6 +53,7 @@ $app->put('/:model/:id', function ($model,$id) use ($app){
     $single = $class::find($id);
     $single->update($app->request->params());
     $template = (!is_null($single->template_view) ? $single->template_view : 'base_view.html');
+    $app->flashNow('Success', 'Saved');
     $app->render($template,array(
           'model' => $model,
           'page_title' => $class,
@@ -70,7 +71,8 @@ $app->post('/:model', function ($model) use ($app){
   if(class_exists($class)){
     $single = new $class();
     $single->store($app->request->params());
-    $template = (!is_null($single->template) ? $single->template : 'base_table.html');
+    $template = (!is_null($single->template) ? $single->template : 'base_view.html');
+    $app->flashNow('Success', 'Saved');
     $mod = $single->all();
     $app->render($template,array(
           'model' => $model,
@@ -90,6 +92,7 @@ $app->delete('/:model/:id', function ($model,$id) use ($app){
   if(class_exists($class)){
     $single = $class::find($id);
     $single->delete();
+    $app->flash('Success', 'Deleted');
     $app->redirect($app->request->getRootUri().'/'.$model);
   }else{
     $app->pass();
