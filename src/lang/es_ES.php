@@ -11,6 +11,9 @@ $lang = array(
     "You've logged out." => 'Has salido de la aplicación.',
     "We've sent an email with instrucions" => 'Hemos enviado un email con las instrucciones.',
     
+    //SUCCESS
+    "Success" => "Éxito",
+    
     //Login
     'Login Form' => 'Acceso',
     'Log in' => 'Acceso',
