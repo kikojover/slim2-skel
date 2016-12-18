@@ -1,5 +1,8 @@
 <script type="text/javascript" src="{{ baseUrl() }}/assets/js/notify/pnotify.core.js"></script>
 <script type="text/javascript">
+    {% if flash.GoToTab %}
+        $('a[href="#{{ flash.GoToTab }}"]').tab('show');
+    {% endif %}
     {% if flash.Error %}
     new PNotify({
       title: 'Error',
@@ -16,7 +19,7 @@
     {% endif %}
     {% if flash.Success %}
     new PNotify({
-      title: 'Success',
+      title: '{{ "Success"|trans }}',
       text: '{{ flash.Success|trans }}',
       type: 'success'
     });
