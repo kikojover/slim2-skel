@@ -1,31 +1,108 @@
 {% extends "base.html" %}
 
 {% block main %}
-      <table class="table table-striped jambo_table">
-        <thead>
-          <tr>
-            <!--<th>#</th>-->
-            {% for field in fields %}
-            <th>{{ field|trans }}</th>
-            {% endfor %}
-            <th>{{ "Action"|trans }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for reg in regs %}
-          <tr>
-            <!--<th scope="row">{{ loop.index }}</th>-->
-            {% for field in fields %}
-            <td>{{ reg[field] }}</td>
-            {% endfor %}
-            <td>
-              <a href="{{ model }}/{{ reg.id }}" title="{{ "Edit"|trans }}"><i class="fa fa-edit fa-lg"></i></a>
-              <!-- <a href="path_for('delete',{'id':userid})"><i class="fa fa-remove"></i></a> -->
-              <a href="#" title="{{ "Delete"|trans }}"><i class="fa fa-remove fa-lg"></i></a>
-              <a href="#" title="{{ "Create"|trans }}"><i class="fa fa-plus fa-lg"></i></a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+                     <div>
+                          <table id="table-bookings" class="table table-striped jambo_table" style="width:100%">
+                            <thead>
+<!--                            <tr>
+                                <th>#</th>
+                                {% for field in fields %}
+                                <th><input type="text" placeholder="Buscar {{ field|trans }}" /></th>
+                                {% endfor %}
+                              </tr>-->
+                              <tr>
+                                <!--<th>#</th>-->
+                                {% for field in fields %}
+                                <th>{{ field|trans }}</th>
+                                {% endfor %}
+                                <th>{{ "Action"|trans }}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for reg in regs %}
+                              <tr>
+                                <!--<th scope="row">{{ loop.index }}</th>-->
+                                {% for field in fields %}
+                                <td><a href="{{ baseUrl() }}/{{ model }}/{{reg.id}}">{{ reg[field] }}</a></td>
+                                {% endfor %}
+                                <td>
+                                  <!--<a href="{{ model }}/{{ reg.id }}" title="{{ "View"|trans }}"><i class="fa fa-eye fa-lg"></i></a>-->
+                                  <!-- <a href="path_for('delete',{'id':userid})"><i class="fa fa-remove"></i></a> -->
+                                  <a onclick="$('#ppto_action').attr('action','{{ model }}/{{ reg.id }}');$('#action_method').val('DELETE');" href="#" title="{{ "Delete"|trans }}" data-entity-id="{{ reg.id }}" data-toggle="modal" data-target=".delete-modal"><i class="fa fa-remove fa-lg"></i></a>
+                                  <!--<a onclick="window.open('{{ baseUrl() }}/pdf/{{ model }}/{{ reg.id }}');" href="#" title="{{ "print"|trans }}"><i class="fa fa-file-pdf-o fa-lg"></i></a>-->
+                                  <!--<a id="btn_new"  href="#" title="{{ "Create"|trans }}"><i class="fa fa-plus fa-lg"></i></a>-->
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                      </div>
+    <form id="ppto_action" name="ppto_action" method="post" action="">
+        <input id="action_method" type="hidden" name="_METHOD" value=""/>
+    </form>
+    <div class="modal fade delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel2">{{ "sure"|trans }}</h4>
+          </div>
+          <div class="modal-body">
+            <h4>{{ "sure_general"|trans }}</h4>
+            <p>{{ "delete_general_txt"|trans }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ "close"|trans }}</button>
+            <button id="btn-del" type="button" class="btn btn-primary">{{ "confirm"|trans }}</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+<!-- Datatables-->
+<script src="{{ baseUrl() }}/assets/js/datatables/jquery.dataTables.min.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/dataTables.bootstrap.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/dataTables.buttons.min.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/buttons.bootstrap.min.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/jszip.min.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/pdfmake.min.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/vfs_fonts.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/buttons.html5.min.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/buttons.print.min.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/dataTables.fixedHeader.min.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/dataTables.keyTable.min.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/dataTables.responsive.min.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/responsive.bootstrap.min.js"></script>
+<script src="{{ baseUrl() }}/assets/js/datatables/dataTables.scroller.min.js"></script>
+
+<script>
+    $('#btn-del').click(function(){
+        $("#ppto_action").submit();
+    });
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    var table = $('#table-bookings').DataTable({
+        order: [[ 1, "desc" ]],
+        language: {
+            url: '{{ baseUrl() }}/assets/js/datatables/localisation/es_ES.json'
+        }
+    });
+    table.columns().every( function () {
+        var that = this;
+ 
+        $('input').on( 'keyup change', function () {
+            console.log(this.value,that);
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
+});
+</script>
 {% endblock %}
