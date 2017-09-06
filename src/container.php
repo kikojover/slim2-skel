@@ -39,10 +39,11 @@ if($config_phpmailer['type'] == 'smtp'){
   }
 }
 $app->mail = $mail;
-$app->pdf = new mPDF();
-$app->pdf->setAutoTopMargin = 'stretch'; 
-$app->pdf->setAutoBottomMargin = 'stretch'; 
- 
+if(class_exists('mPDF')){
+  $app->pdf = new mPDF();
+  $app->pdf->setAutoTopMargin = 'stretch'; 
+  $app->pdf->setAutoBottomMargin = 'stretch'; 
+}
 $translator = new Translator("es_ES", new MessageSelector());
 $translator->addLoader('php', new PhpFileLoader());
 // Add language files here

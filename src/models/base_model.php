@@ -9,6 +9,7 @@ class Base_model extends \Illuminate\Database\Eloquent\Model
   public $template = null;
   public $template_view = null;
   public $params = null;
+  public $relations = array();
   
   public function __construct(){
       global $app;
