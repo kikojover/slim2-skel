@@ -7,12 +7,19 @@ $app->get('/:model', function ($model) use ($app){
     $single->params = $app->request->params();
     $template = (!is_null($single->template) ? $single->template : 'base_table.html');
     $mod = $single->all();
+    $relations = array();
+    foreach($single->relations as $relation){
+        $relations[$relation] = $relation::all();
+    }
     $app->render($template,array(
           'model' => $model,
           'page_title' => $class,
           'panel_title' => '',
+          'panel_actions' => '',
           'fields' => $single->list_fields,
-          'regs' => $mod
+          'relations' => $relations,
+          'regs' => $mod,
+          'obj' => $single
           ));
   }else{
     $app->pass();
@@ -30,23 +37,41 @@ $app->get('/pdf/:model/:id', function ($model,$id) use ($app){
   }
 });
 
-$app->get('/:model/:id', function ($model,$id) use ($app){
+$app->get('/:model(/json)/:id', function ($model,$id) use ($app){
   $class = ucwords($model);
   if(class_exists($class)){
     $single = $class::find($id);
+    $relations = array();
+    $related = array();
+    foreach($single->relations as $relation){
+        $relations[$relation] = $relation::all();
+        $related[$relation] = $single->$relation;
+    }
+//    var_dump($relations);exit;
+    $columns = $single->attributesToArray();
     $single->format();
-    $template = (!is_null($single->template_view) ? $single->template_view : 'base_view.html');
-    $app->render($template,array(
-          'model' => $model,
-          'page_title' => $class,
-          'panel_title' => '',
-          'fields' => $single->view_fields,
-          'obj' => $single
-          ));
+    if($app->request->isAjax()){
+      $app->response->setStatus(200);
+      $app->response()->headers->set('Content-Type', 'application/json');
+      echo $single->toJson();
+    }else{
+      $template = (!is_null($single->template_view) ? $single->template_view : 'base_view.html');
+      $app->render($template,array(
+            'model' => $model,
+            'page_title' => $class,
+            'panel_title' => $single->panel_title,
+            'fields' => $single->view_fields,
+            'fields' => $columns,
+            'cols' => array_keys($columns),
+            'relations' => $relations,
+            'related' => $related,
+            'obj' => $single,
+            ));
+    }
   }else{
     $app->pass();
   }
-});
+})->name('single');
 
 $app->put('/:model/:id', function ($model,$id) use ($app){
   $class = ucwords($model);
@@ -54,14 +79,15 @@ $app->put('/:model/:id', function ($model,$id) use ($app){
     $single = $class::find($id);
     $single->update($app->request->params());
     $template = (!is_null($single->template_view) ? $single->template_view : 'base_view.html');
-    $app->flashNow('Success', 'Saved');
-    $app->render($template,array(
-          'model' => $model,
-          'page_title' => $class,
-          'panel_title' => '',
-          'fields' => $single->view_fields,
-          'obj' => $single
-          ));
+    $app->flash('Success', 'Saved');
+    $app->redirect($app->urlFor('single',array('model' => $model, 'id' => $id)));
+//    $app->render($template,array(
+//          'model' => $model,
+//          'page_title' => $class,
+//          'panel_title' => '',
+//          'fields' => $single->view_fields,
+//          'obj' => $single
+//          ));
   }else{
     $app->pass();
   }
@@ -72,6 +98,12 @@ $app->post('/:model', function ($model) use ($app){
   if(class_exists($class)){
     $single = new $class();
     $single->store($app->request->params());
+    $relations = array();
+    $related = array();
+    foreach($single->relations as $relation){
+        $relations[$relation] = $relation::all();
+        $related[$relation] = $single->$relation;
+    }
     $template = (!is_null($single->template) ? $single->template : 'base_view.html');
     $app->flashNow('Success', 'Saved');
     $mod = $single->all();
@@ -80,6 +112,8 @@ $app->post('/:model', function ($model) use ($app){
           'page_title' => $class,
           'panel_title' => '',
           'fields' => $single->list_fields,
+          'relations' => $relations,
+          'related' => $related,
           'regs' => $mod,
           'obj' => $single
           ));
