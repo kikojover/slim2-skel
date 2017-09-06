@@ -6,7 +6,12 @@ $app->get('/:model', function ($model) use ($app){
     $single = new $class();
     $single->params = $app->request->params();
     $template = (!is_null($single->template) ? $single->template : 'base_table.html');
-    $mod = $single->all();
+    $mod = array();
+    $mod_temp = $single->all();
+    foreach ($mod_temp as $value) {
+      $value->format();
+      $mod[] = $value;
+    }
     $relations = array();
     foreach($single->relations as $relation){
         $relations[$relation] = $relation::all();
