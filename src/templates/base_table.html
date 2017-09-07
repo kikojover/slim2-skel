@@ -88,7 +88,7 @@
     var table = $('#table-bookings').DataTable({
         order: [[ 1, "desc" ]],
         language: {
-            url: '{{ baseUrl() }}/assets/js/datatables/localisation/es_ES.json'
+            url: '{{ baseUrl() }}/assets/js/datatables/localisation/{{ lang }}.json'
         }
     });
     table.columns().every( function () {

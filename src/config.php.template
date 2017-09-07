@@ -27,4 +27,5 @@ $config_phpmailer = array(
     )
 );
 
-$app_name = 'Slim2 Skeleton';
+$app->app_name = 'Slim2 Skeleton';
+$app->lang = 'es_ES';

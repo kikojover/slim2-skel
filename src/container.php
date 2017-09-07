@@ -44,10 +44,10 @@ if(class_exists('mPDF')){
   $app->pdf->setAutoTopMargin = 'stretch'; 
   $app->pdf->setAutoBottomMargin = 'stretch'; 
 }
-$translator = new Translator("es_ES", new MessageSelector());
+$translator = new Translator($app->lang, new MessageSelector());
 $translator->addLoader('php', new PhpFileLoader());
 // Add language files here
-$translator->addResource('php', './src/lang/es_ES.php', 'es_ES'); // Norwegian
+$translator->addResource('php', './src/lang/'.$app->lang.'.php', $app->lang);
  
 // Twig configuration
 $view = $app->view();
@@ -59,3 +59,4 @@ $view->parserExtensions = array(
 $twig_env = $view->getEnvironment();
 $twig_env->addGlobal('logged_user', $app->sentry->getUser());
 $twig_env->addGlobal('app_name', $app->app_name);
+$twig_env->addGlobal('lang', $app->lang);
