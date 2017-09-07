@@ -22,3 +22,7 @@ class AuthMiddleware extends \Slim\Middleware
     }
 }
 $app->add(new \AuthMiddleware());
+
+if(file_exists('src/app_middleware.php')){
+    include('src/app_middleware.php');
+}

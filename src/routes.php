@@ -335,3 +335,7 @@ $app->post('/resetpassword',function () use ($app){
 //   $usr_activation = (new Cartalyst\Sentinel\Activations\IlluminateActivationRepository)->create($user);
 //   $activation->complete($user,$usr_activation->code);
 // });
+
+if(file_exists('src/app_routes.php')){
+    include('src/app_routes.php');
+}
