@@ -1,4 +1,8 @@
 <?php
+//Include custom routes first
+if(file_exists('src/app_routes.php')){
+    include('src/app_routes.php');
+}
 
 $app->get('/:model', function ($model) use ($app){
   $class = ucwords($model);
@@ -336,6 +340,3 @@ $app->post('/resetpassword',function () use ($app){
 //   $activation->complete($user,$usr_activation->code);
 // });
 
-if(file_exists('src/app_routes.php')){
-    include('src/app_routes.php');
-}
