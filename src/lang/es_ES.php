@@ -24,6 +24,8 @@ $lang = array(
     'Lost password' => 'Recuperar contraseña',
     
     //General
+    'close' => 'Cerrar',
+    'confirm' => 'Confirmar',
     'New' => 'Nuevo',
     'Users' => 'Usuarios',
     'Profile' => 'Perfil',

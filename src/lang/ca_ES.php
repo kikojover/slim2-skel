@@ -24,6 +24,8 @@ $lang = array(
     'Lost password' => 'Recuperar contrassenya',
     
     //General
+    'close' => 'Tanca',
+    'confirm' => 'Confirma',
     'New' => 'Nou',
     'Users' => 'Usuaris',
     'Profile' => 'Perfil',
