@@ -149,25 +149,8 @@ $app->post('/:model', function ($model) use ($app){
       $app->response()->headers->set('Content-Type', 'application/json');
       echo $single->toJson();
      }else{
-      $relations = array();
-      $related = array();
-      foreach($single->relations as $relation){
-          $relations[$relation] = $relation::all();
-          $related[$relation] = $single->$relation;
-      }
-      $template = (!is_null($single->template) ? $single->template : 'base_view.html');
-      $app->flashNow('Success', 'Saved');
-      $mod = $single->all();
-      $app->render($template,array(
-            'model' => $model,
-            'page_title' => $class,
-            'panel_title' => '',
-            'fields' => $single->list_fields,
-            'relations' => $relations,
-            'related' => $related,
-            'regs' => $mod,
-            'obj' => $single
-            ));
+      $app->flash('Success', 'Saved');
+      $app->redirect($app->urlFor('single',array('model' => $model, 'id' => $single->id)));
     }
   }else{
     $app->pass();
