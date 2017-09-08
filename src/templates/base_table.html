@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+{% block panel_actions %}
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li>
+                        <a class="btn btn-primary btn-sm" href="{{ baseUrl() }}/{{ model }}/0">{{ "new"|trans }}</a>
+                      </li>
+                    </ul>
+{% endblock %}
+
 {% block main %}
                      <div>
                           <table id="table-bookings" class="table table-striped jambo_table" style="width:100%">

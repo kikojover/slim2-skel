@@ -46,6 +46,42 @@ $app->get('/pdf/:model/:id', function ($model,$id) use ($app){
   }
 });
 
+$app->get('/:model/new', function ($model) use ($app){
+  $class = ucwords($model);
+  if(class_exists($class)){
+    $single = new $class();
+    $relations = array();
+    $related = array();
+    foreach($single->relations as $relation){
+        $relations[$relation] = $relation::all();
+        $related[$relation] = $single->$relation;
+    }
+//    var_dump($relations);exit;
+    $columns = $single->attributesToArray();
+    $single->format();
+    if($app->request->isAjax()){
+      $app->response->setStatus(200);
+      $app->response()->headers->set('Content-Type', 'application/json');
+      echo $single->toJson();
+    }else{
+      $template = (!is_null($single->template_view) ? $single->template_view : 'base_view.html');
+      $app->render($template,array(
+            'model' => $model,
+            'page_title' => $class,
+            'panel_title' => $single->panel_title,
+            'fields' => $single->view_fields,
+            'fields' => $columns,
+            'cols' => array_keys($columns),
+            'relations' => $relations,
+            'related' => $related,
+            'obj' => $single,
+            ));
+    }
+  }else{
+    $app->pass();
+  }
+})->name('new');
+
 $app->get('/:model(/json)/:id', function ($model,$id) use ($app){
   $class = ucwords($model);
   if(class_exists($class)){
