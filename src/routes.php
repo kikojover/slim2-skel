@@ -75,6 +75,7 @@ $app->get('/:model/new', function ($model) use ($app){
             'relations' => $relations,
             'related' => $related,
             'obj' => $single,
+            'isNew' => true,
             ));
     }
   }else{
@@ -111,6 +112,7 @@ $app->get('/:model(/json)/:id', function ($model,$id) use ($app){
             'relations' => $relations,
             'related' => $related,
             'obj' => $single,
+            'isNew' => false,
             ));
     }
   }else{
