@@ -3,7 +3,7 @@
 {% block panel_actions %}
                     <ul class="nav navbar-right panel_toolbox">
                       <li>
-                        <a class="btn btn-primary btn-sm" href="{{ baseUrl() }}/{{ model }}/new">{{ "new"|trans }}</a>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="location.href='{{ baseUrl() }}/{{ model }}/new'">{{ "New"|trans }}</button>
                       </li>
                     </ul>
 {% endblock %}

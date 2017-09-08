@@ -24,6 +24,7 @@ $lang = array(
     'Lost password' => 'Recuperar contrassenya',
     
     //General
+    'New' => 'Nou',
     'Users' => 'Usuaris',
     'Profile' => 'Perfil',
     'Log Out' => 'Eixir',
