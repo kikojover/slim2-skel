@@ -123,16 +123,15 @@ $app->put('/:model/:id', function ($model,$id) use ($app){
   if(class_exists($class)){
     $single = $class::find($id);
     $single->update($app->request->params());
-    $template = (!is_null($single->template_view) ? $single->template_view : 'base_view.html');
-    $app->flash('Success', 'Saved');
-    $app->redirect($app->urlFor('single',array('model' => $model, 'id' => $id)));
-//    $app->render($template,array(
-//          'model' => $model,
-//          'page_title' => $class,
-//          'panel_title' => '',
-//          'fields' => $single->view_fields,
-//          'obj' => $single
-//          ));
+    if($app->request->isAjax()){
+      $app->response->setStatus(200);
+      $app->response()->headers->set('Content-Type', 'application/json');
+      echo $single->toJson();
+    }else{
+      $template = (!is_null($single->template_view) ? $single->template_view : 'base_view.html');
+      $app->flash('Success', 'Saved');
+      $app->redirect($app->urlFor('single',array('model' => $model, 'id' => $id)));
+    }
   }else{
     $app->pass();
   }
@@ -143,25 +142,31 @@ $app->post('/:model', function ($model) use ($app){
   if(class_exists($class)){
     $single = new $class();
     $single->store($app->request->params());
-    $relations = array();
-    $related = array();
-    foreach($single->relations as $relation){
-        $relations[$relation] = $relation::all();
-        $related[$relation] = $single->$relation;
+    if($app->request->isAjax()){
+      $app->response->setStatus(200);
+      $app->response()->headers->set('Content-Type', 'application/json');
+      echo $single->toJson();
+     }else{
+      $relations = array();
+      $related = array();
+      foreach($single->relations as $relation){
+          $relations[$relation] = $relation::all();
+          $related[$relation] = $single->$relation;
+      }
+      $template = (!is_null($single->template) ? $single->template : 'base_view.html');
+      $app->flashNow('Success', 'Saved');
+      $mod = $single->all();
+      $app->render($template,array(
+            'model' => $model,
+            'page_title' => $class,
+            'panel_title' => '',
+            'fields' => $single->list_fields,
+            'relations' => $relations,
+            'related' => $related,
+            'regs' => $mod,
+            'obj' => $single
+            ));
     }
-    $template = (!is_null($single->template) ? $single->template : 'base_view.html');
-    $app->flashNow('Success', 'Saved');
-    $mod = $single->all();
-    $app->render($template,array(
-          'model' => $model,
-          'page_title' => $class,
-          'panel_title' => '',
-          'fields' => $single->list_fields,
-          'relations' => $relations,
-          'related' => $related,
-          'regs' => $mod,
-          'obj' => $single
-          ));
   }else{
     $app->pass();
   }
@@ -172,9 +177,14 @@ $app->delete('/:model/:id', function ($model,$id) use ($app){
   if(class_exists($class)){
     $single = $class::find($id);
     $single->delete();
-    $app->flash('Success', 'Deleted');
-    $app->redirect($app->request->getRootUri().'/'.$model);
-  }else{
+    if($app->request->isAjax()){
+      $app->response->setStatus(200);
+      $app->response()->headers->set('Content-Type', 'application/json');
+      echo $single->toJson();
+    }else{
+      $app->flash('Success', 'Deleted');
+      $app->redirect($app->request->getRootUri().'/'.$model);
+    }
     $app->pass();
   }
 });
