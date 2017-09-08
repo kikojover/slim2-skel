@@ -24,6 +24,9 @@ $lang = array(
     'Lost password' => 'Recuperar contrassenya',
     
     //General
+    'sure' => 'Segur?',
+    'sure_general' => 'Confirma l\'esborrat',
+    'delete_general_txt' => 'Segur que vols esborrar aquest element?',
     'close' => 'Tanca',
     'confirm' => 'Confirma',
     'New' => 'Nou',

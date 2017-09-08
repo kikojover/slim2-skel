@@ -24,6 +24,9 @@ $lang = array(
     'Lost password' => 'Recuperar contraseña',
     
     //General
+    'sure' => '¿Seguro?',
+    'sure_general' => 'Confirma el borrado',
+    'delete_general_txt' => '¿Seguro que quieres borrar este elemento?',
     'close' => 'Cerrar',
     'confirm' => 'Confirmar',
     'New' => 'Nuevo',
