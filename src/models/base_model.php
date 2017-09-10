@@ -13,7 +13,7 @@ class Base_model extends \Illuminate\Database\Eloquent\Model
   
   public function __construct(){
       global $app;
-      
+
       parent::__construct();
       self::$user = $app->sentry->getUser();
   }

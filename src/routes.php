@@ -184,11 +184,26 @@ $app->get('/', function() use ($app){
 
 $app->get('/users/:id', function ($id) use ($app) {
     $user = $app->sentry->findUserById($id);
-    $app->render('user.html', array(
-              'page_title' => 'User details',
-              'panel_title' => $user->email,
-              'user' => $user
-          ));
+    $usr = $app->sentry->getUser();
+    $admusr = $usr->hasAccess('admin');
+    if($admusr || ($user->id == $usr->id)){
+      $groups = $app->sentry->findAllGroups();
+      $usr_grps = $user->getGroups();
+      $usr_groups = array();
+      foreach($usr_grps as $usr_group){
+        $usr_groups[] = $usr_group->id;
+      }
+      $app->render('user.html', array(
+                'page_title' => 'User details',
+                'panel_title' => $user->email,
+                'user' => $user,
+                'groups' => $groups,
+                'usr_groups' => $usr_groups,
+                'isAdmin' => $admusr
+            ));
+    }else{
+        $app->redirect($app->urlFor('home'));
+    }
 })->name('user');
 
 $app->post('/users/:id', function ($id) use ($app) {
@@ -196,11 +211,37 @@ $app->post('/users/:id', function ($id) use ($app) {
     $user->first_name = $app->request->post('first_name');
     $user->last_name = $app->request->post('last_name');
     $user->email = $app->request->post('email');
+    if(!is_null($app->request->post('group'))){
+      $old_groups = $user->getGroups();
+      foreach ($old_groups as $old_group) {
+        $user->removeGroup($old_group);
+      }
+      $new_groups = $app->request->post('group');
+      foreach ($new_groups as $new_group) {
+        $group = $app->sentry->findGroupById($new_group);
+        $user->addGroup($group);
+      }
+    }
+    foreach ($app->extend_user as $field) {
+      $user->$field = $app->request->post($field);
+    }
+    if(!empty($app->request->post('password'))){
+      if($app->request->post('password') == $app->request->post('repeat-password')){
+        $user->password = $app->request->post('password');
+      }else{
+        $app->flash('Error', 'Passwords don\'t match.');
+        $app->redirect($app->urlFor('user',array('id'=>$id)));
+      }
+    }
     $user->save();
-    $app->redirect($app->urlFor('users'));
+    $app->flash('Success', 'Saved');
+    $app->redirect($app->urlFor('user',array('id'=>$id)));
 });
 
 $app->get('/users', function () use ($app) {
+    $usr = $app->sentry->getUser();
+    $admusr = $usr->hasAccess('admin');
+    if($admusr){
       $users = $app->sentry->findAllUsers();
       foreach ($users as $key => $user) {
         $users[$key]->edit_path = $app->urlFor('user', array('id' => $user->id));
@@ -210,6 +251,9 @@ $app->get('/users', function () use ($app) {
               'page_title' => 'Users',
               'panel_title' => 'User list',
           ));
+    }else{
+      $app->redirect($app->urlFor('home'));
+    }
 })->name('users');
 
 $app->get('/login',function () use ($app) {
@@ -344,30 +388,45 @@ $app->post('/resetpassword',function () use ($app){
 
 })->name('doresetpass');
 
-// $app->get('/init', function (Request $request, Response $response, $args) {
-// //   $this->sentinel->getRoleRepository()->createModel()->create(array(
-// //       'name'          => 'Admin',
-// //       'slug'          => 'admin',
-// //       'permissions'   => array(
-// //           'user.create' => true,
-// //           'user.update' => true,
-// //           'user.delete' => true
-// //       ),
-// //   ));
-// //
-// //   $this->sentinel->getRoleRepository()->createModel()->create(array(
-// //       'name'          => 'User',
-// //       'slug'          => 'user',
-// //       'permissions'   => array(
-// //           'user.update' => true
-// //       ),
-// //   ));
-// //
-//   $user = $this->sentinel->register(['email'=>'kiko@kikojover.es','password' => 'kiko']);
-//   $role = $this->sentinel->findRoleByName('Admin');
-//   $role->users()->attach($user);
-//   $activation = new Cartalyst\Sentinel\Activations\IlluminateActivationRepository;
-//   $usr_activation = (new Cartalyst\Sentinel\Activations\IlluminateActivationRepository)->create($user);
-//   $activation->complete($user,$usr_activation->code);
-// });
+$app->get('/init', function () use ($app) {
+  try{
+    $user = $app->sentry->findUserByCredentials(array(
+          'email' => 'kiko@kikojover.com',
+    ));
+  }catch(Cartalyst\Sentry\Users\UserNotFoundException $e){
+    try
+    {
+        $group = $app->sentry->findGroupByName('admin');
+    }
+    catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e)
+    {
+      $group = $app->sentry->createGroup(array(
+          'name'        => 'admin',
+          'permissions' => array(
+              'admin' => 1,
+              'users' => 1,
+          ),
+      ));
+      $group = $app->sentry->createGroup(array(
+          'name'        => 'users',
+          'permissions' => array(
+              'admin' => 0,
+              'users' => 1,
+          ),
+      ));
+    }
+    $user = $app->sentry->createUser(array(
+        'first_name' => 'Kiko',
+        'last_name' => 'Jover',
+        'email'     => 'kiko@kikojover.com',
+        'password'  => 'kiko',
+        'activated' => true,
+    ));
+    $adminGroup = $app->sentry->findGroupByName('admin');
+
+    // Assign the group to the user
+    $user->addGroup($adminGroup);
+
+  }
+});
 

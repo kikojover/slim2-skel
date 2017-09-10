@@ -29,3 +29,6 @@ $config_phpmailer = array(
 
 $app->app_name = 'Slim2 Skeleton';
 $app->lang = 'es_ES';
+
+//Add fields to user to extend it
+$app->extend_user = array();
