@@ -2,7 +2,12 @@
 
 {% block main %}
 <br />
-<form id="user-form" method="post" data-parsley-validate class="form-horizontal form-label-left">
+  {% if not isNew %}
+  <form id="form_user" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method="post">
+  <input type="hidden" name="_METHOD" value="PUT" />
+  {% else %}
+  <form id="form_user" action="{{ baseUrl() }}/users" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method="post">
+  {% endif %}
 
   <div class="form-group">
     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first_name">{{ "First Name"|trans }} <span class="required">*</span>

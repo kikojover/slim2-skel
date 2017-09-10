@@ -170,6 +170,7 @@ $app->delete('/:model/:id', function ($model,$id) use ($app){
       $app->flash('Success', 'Deleted');
       $app->redirect($app->request->getRootUri().'/'.$model);
     }
+  }else{
     $app->pass();
   }
 });
@@ -181,6 +182,24 @@ $app->get('/', function() use ($app){
         ));
 })->name('home');
 
+
+$app->get('/users/new', function () use ($app) {
+    $usr = $app->sentry->getUser();
+    $admusr = $usr->hasAccess('admin');
+    if($admusr){
+      $groups = $app->sentry->findAllGroups();
+      $app->render('user.html', array(
+                'page_title' => 'User details',
+                'panel_title' => $user->email,
+                'user' => $user,
+                'groups' => $groups,
+                'isAdmin' => $admusr,
+                'isNew' => true,
+            ));
+    }else{
+        $app->redirect($app->urlFor('home'));
+    }
+})->name('users_new');
 
 $app->get('/users/:id', function ($id) use ($app) {
     $user = $app->sentry->findUserById($id);
@@ -199,14 +218,44 @@ $app->get('/users/:id', function ($id) use ($app) {
                 'user' => $user,
                 'groups' => $groups,
                 'usr_groups' => $usr_groups,
-                'isAdmin' => $admusr
-            ));
+                'isAdmin' => $admusr,
+                'isNew' => false,
+             ));
     }else{
         $app->redirect($app->urlFor('home'));
     }
 })->name('user');
 
-$app->post('/users/:id', function ($id) use ($app) {
+$app->post('/users', function () use ($app) {
+    $arr_usr = array(
+      'first_name' => $app->request->post('first_name'),
+      'last_name' => $app->request->post('last_name'),
+      'email' => $app->request->post('email'),
+    );
+    foreach ($app->extend_user as $field) {
+      $arr_usr[$field] = $app->request->post($field);
+    }
+    if(!empty($app->request->post('password'))){
+      if($app->request->post('password') == $app->request->post('repeat-password')){
+        $arr_usr['password'] = $app->request->post('password');
+      }else{
+        $app->flash('Error', 'Passwords don\'t match.');
+        $app->redirect($app->urlFor('users_new'));
+      }
+    }
+    $user = $app->sentry->createUser($arr_usr);
+    if(!is_null($app->request->post('group'))){
+      $new_groups = $app->request->post('group');
+      foreach ($new_groups as $new_group) {
+        $group = $app->sentry->findGroupById($new_group);
+        $user->addGroup($group);
+      }
+    }
+    $app->flash('Success', 'Saved');
+    $app->redirect($app->urlFor('user',array('id'=>$user->id)));
+});
+
+$app->put('/users/:id', function ($id) use ($app) {
     $user = $app->sentry->findUserById($id);
     $user->first_name = $app->request->post('first_name');
     $user->last_name = $app->request->post('last_name');
@@ -236,6 +285,13 @@ $app->post('/users/:id', function ($id) use ($app) {
     $user->save();
     $app->flash('Success', 'Saved');
     $app->redirect($app->urlFor('user',array('id'=>$id)));
+});
+
+$app->delete('/users/:id', function ($id) use ($app) {
+    $user = $app->sentry->findUserById($id);
+    $user->delete();
+    $app->flash('Success', 'Deleted');
+    $app->redirect($app->urlFor('users'));
 });
 
 $app->get('/users', function () use ($app) {

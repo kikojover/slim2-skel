@@ -3,7 +3,7 @@
 {% block panel_actions %}
                     <ul class="nav navbar-right panel_toolbox">
                       <li>
-                        <button type="button" class="btn btn-primary btn-sm" onclick="location.href='{{ baseUrl() }}/{{ model }}/new'">{{ "New"|trans }}</button>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="location.href='{{ baseUrl() }}/users/new'">{{ "New"|trans }}</button>
                       </li>
                     </ul>
 {% endblock %}
@@ -28,8 +28,9 @@
                                 <td>{{ user.email }}</td>
                                 <td>
                                   <a href="{{ urlFor('user',{"id":user.id}) }}" title="{{ "Edit"|trans }}"><i class="fa fa-edit fa-lg"></i></a>
-                                  <!-- <a href="path_for('delete',{'id':userid})"><i class="fa fa-remove"></i></a> -->
-                                  <a href="#" title="{{ "Delete"|trans }}"><i class="fa fa-remove fa-lg"></i></a>
+
+                                  <a onclick="$('#usr_action').attr('action','{{ baseUrl() }}/users/{{ user.id }}');$('#action_method').val('DELETE');" href="#" title="{{ "Delete"|trans }}" data-entity-id="{{ user.id }}" data-toggle="modal" data-target=".delete-modal"><i class="fa fa-remove fa-lg"></i></a>
+
                                   <a href="#" title="{{ "Create"|trans }}"><i class="fa fa-plus fa-lg"></i></a>
                                 </td>
                               </tr>
@@ -37,7 +38,7 @@
                             </tbody>
                           </table>
                       </div>
-    <form id="ppto_action" name="ppto_action" method="post" action="">
+    <form id="usr_action" name="usr_action" method="post" action="">
         <input id="action_method" type="hidden" name="_METHOD" value=""/>
     </form>
     <div class="modal fade delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -80,7 +81,7 @@
 
 <script>
     $('#btn-del').click(function(){
-        $("#ppto_action").submit();
+        $("#usr_action").submit();
     });
 </script>
 <script type="text/javascript">
