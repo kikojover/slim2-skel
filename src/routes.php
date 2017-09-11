@@ -272,7 +272,9 @@ $app->put('/users/:id', function ($id) use ($app) {
       }
     }
     foreach ($app->extend_user as $field) {
-      $user->$field = $app->request->post($field);
+      if(!is_null($app->request->post($field))){
+        $user->$field = $app->request->post($field);
+      }
     }
     if(!empty($app->request->post('password'))){
       if($app->request->post('password') == $app->request->post('repeat-password')){

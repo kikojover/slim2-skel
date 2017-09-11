@@ -32,3 +32,11 @@ $app->lang = 'es_ES';
 
 //Add fields to user to extend it
 $app->extend_user = array();
+
+$app->menu = array(
+  'Home' => array(
+    'permission' => 'users',
+    'url' => '',
+    'icon' => 'fa-home'
+  )
+);
