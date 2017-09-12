@@ -5,7 +5,11 @@ require __DIR__.'/vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
-include_once __DIR__.'/src/config.php';
+if(file_exists(__DIR__.'/src/config-dev.php')){
+	include_once __DIR__.'/src/config-dev.php';
+}else{
+	include_once __DIR__.'/src/config.php';
+}
 
 include_once __DIR__.'/src/container.php';
 
