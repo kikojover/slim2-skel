@@ -383,7 +383,7 @@ $app->post('/lostpassword',function () use ($app) {
       $resetCode = $user->getResetPasswordCode();
 
       // Now you can send this code to your user via email for example.
-      $app->mail->setFrom('kiko@kikojover.es');
+      $app->mail->setFrom($app->from_email);
       $app->mail->addAddress($email);
       $app->mail->Subject = "[{$app->app_name}] Reset Password";
       $app->mail->Body = $app->request->getUrl().$app->urlFor('resetpass',array('username' => $email,'passcode' =>  $resetCode));

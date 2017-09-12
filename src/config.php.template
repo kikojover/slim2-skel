@@ -28,6 +28,7 @@ $config_phpmailer = array(
 );
 
 $app->app_name = 'Slim2 Skeleton';
+$app->from_email = 'noreply@server.com';
 $app->lang = 'es_ES';
 
 //Add fields to user to extend it
