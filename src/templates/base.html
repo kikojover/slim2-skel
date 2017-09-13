@@ -25,6 +25,7 @@
 
   <script src="{{ baseUrl() }}/assets/js/jquery.min.js"></script>
   <script src="{{ baseUrl() }}/assets/js/nprogress.js"></script>
+{% block head_scripts %}{% endblock %}
 
   <!--[if lt IE 9]>
         <script src="{{ baseUrl()}}/assets/js/ie8-responsive-file-warning.js"></script>
@@ -171,7 +172,7 @@
   <script>
     NProgress.done();
   </script>
-{% block js_scripts %}{% endblock %}
+{% block end_js_scripts %}{% endblock %}
 {% include 'notifications.html' %}
 <!-- /footer content -->
 </body>
