@@ -9,7 +9,8 @@
         "ircmaxell/password-compat": "^1.0",
         "phpmailer/phpmailer": "~5.2",
         "symfony/translation": "2.7.3",
-        "symfony/twig-bridge": "2.7.3"
+        "symfony/twig-bridge": "2.7.3",
+        "nesbot/carbon": "^1.22"
 
     },
 
