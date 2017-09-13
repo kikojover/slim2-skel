@@ -231,6 +231,7 @@ $app->post('/users', function () use ($app) {
       'first_name' => $app->request->post('first_name'),
       'last_name' => $app->request->post('last_name'),
       'email' => $app->request->post('email'),
+      'activated' => 1,
     );
     foreach ($app->extend_user as $field) {
       $arr_usr[$field] = $app->request->post($field);
