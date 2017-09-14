@@ -22,6 +22,13 @@ $lang = array(
     'Password' => 'Contrassenya',
     'Lost your password?' => 'Recuperar contrassenya',
     'Lost password' => 'Recuperar contrassenya',
+
+    //Users
+    'First Name' => 'Nom',
+    'Last Name' => 'Cognoms',
+    'New Password' => 'Nova Contrasenya',
+    'Repeat Password' => 'Repeteix Contrasenya',
+    'Group' => 'Grup',
     
     //General
     'sure' => 'Segur?',
