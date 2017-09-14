@@ -7,13 +7,13 @@ var drp_locale_ca_ES = {
         "toLabel": "Fins a",
         "customRangeLabel": "Personalitzat",
         "daysOfWeek": [
-            "Diumenge",
-            "Dilluns",
-            "Dimarts",
-            "Dimecres",
-            "Dijous",
-            "Divendres",
-            "Dissabte"
+            "Dg",
+            "Dl",
+            "Dt",
+            "Dc",
+            "Dj",
+            "Dv",
+            "Ds"
         ],
         "monthNames": [
             "Gener",
