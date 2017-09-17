@@ -27,7 +27,7 @@ $capsule->bootEloquent();
 $app->sentry = new Sentry();
 
 $app->view = new \Slim\Views\Twig();
-$app->view->setTemplatesDirectory("src/templates");
+$app->view->setTemplatesDirectory("src/templates/".$app->theme);
 
 //PHPMailer configuration
 $mail = new PHPMailer();

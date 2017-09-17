@@ -22,6 +22,11 @@ $lang = array(
     'Password' => 'Contraseña',
     'Lost your password?' => 'Recuperar contraseña',
     'Lost password' => 'Recuperar contraseña',
+    'Reset Password' => 'Reiniciar contraseña',
+    'reset_password_title' => 'Reinicio de contraseña',
+    'reset_password_text' => 'Hola, has pedido un reinicio de tu contraseña, si has sido tú puedes acceder pinchando en el botón de abajo, "Reiniciar Contraseña", y te llevará a un formulario para cambiarla. Si no has sido tú quien ha pedido el reinicio puede dejar pasar este correo.',
+    'reset_password_link' => 'Reiniciar Contraseña',
+    'reset_password_alturl' => 'Si el botón no ha funcionado, copia y pega este enlace en tu navegador para acceder:<br />',
 
     //Users
     'First Name' => 'Nombre',

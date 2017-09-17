@@ -22,6 +22,11 @@ $lang = array(
     'Password' => 'Contrassenya',
     'Lost your password?' => 'Recuperar contrassenya',
     'Lost password' => 'Recuperar contrassenya',
+    'Reset Password' => 'Reiniciar contrassenya',
+    'reset_password_title' => 'Reinici de contrassenya',
+    'reset_password_text' => 'Hola, has demanat un reinici de la teua contrassenya, si has segut tu pots accedir punxant en el botó de baix, "Reiniciar Contrassenya", i et durà a un formulari per canviar-la. Si no has segut tu qui ha demanat el reinici pots deixar passar este correu.',
+    'reset_password_link' => 'Reiniciar Contrassenya',
+    'reset_password_alturl' => 'Si el botó no ha funcionat, copia i pega este enllaç en el teu navegador per accedir:  ',
 
     //Users
     'First Name' => 'Nom',

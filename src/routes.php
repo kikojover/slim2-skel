@@ -316,6 +316,9 @@ $app->get('/users', function () use ($app) {
 })->name('users');
 
 $app->get('/login',function () use ($app) {
+  // $app->render('mail/forgotpassword.html', array(
+  //         'page_title' => 'Login',
+  //     ));
   $app->render('login.html', array(
           'page_title' => 'Login',
       ));
@@ -384,10 +387,20 @@ $app->post('/lostpassword',function () use ($app) {
       $resetCode = $user->getResetPasswordCode();
 
       // Now you can send this code to your user via email for example.
+      $body = $app->view->fetch('mail/forgotpassword.html', array(
+              'user' => $user,
+              'url' => $app->request->getUrl().$app->urlFor('resetpass',array('username' => $email,'passcode' =>  $resetCode)),
+      ));
+      $subject = $app->view->fetch('mail/forgotpassword_subject.html', array(
+              'user' => $user,
+              'url' => $app->request->getUrl().$app->urlFor('resetpass',array('username' => $email,'passcode' =>  $resetCode)),
+      ));
       $app->mail->setFrom($app->from_email);
       $app->mail->addAddress($email);
-      $app->mail->Subject = "[{$app->app_name}] Reset Password";
-      $app->mail->Body = $app->request->getUrl().$app->urlFor('resetpass',array('username' => $email,'passcode' =>  $resetCode));
+      $app->mail->Subject = $subject;
+      $app->mail->Body = $body;
+      $app->mail->IsHTML(true);
+      $app->mail->CharSet = 'UTF-8';
       $app->mail->send();
       $app->flash('Info','We\'ve sent an email with instrucions');
   }
