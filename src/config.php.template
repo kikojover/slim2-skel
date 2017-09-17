@@ -30,6 +30,7 @@ $config_phpmailer = array(
 $app->app_name = 'Slim2 Skeleton';
 $app->from_email = 'noreply@server.com';
 $app->lang = 'es_ES';
+$app->theme = 'default';
 
 //Add fields to user to extend it
 $app->extend_user = array();
