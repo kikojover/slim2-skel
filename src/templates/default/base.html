@@ -167,12 +167,12 @@
   <!-- bootstrap progress js -->
   <script src="{{ baseUrl() }}/assets/js/progressbar/bootstrap-progressbar.min.js"></script>
 
-  <script src="{{ baseUrl() }}/assets/js/custom.js"></script>
 
   <script>
     NProgress.done();
   </script>
 {% block end_js_scripts %}{% endblock %}
+  <script src="{{ baseUrl() }}/assets/js/custom.js"></script>
 {% include 'notifications.html' %}
 <!-- /footer content -->
 </body>
