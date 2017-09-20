@@ -33,7 +33,7 @@ $app->get('/:model', function ($model) use ($app){
   }else{
     $app->pass();
   }
-});
+})->name('list');
 
 $app->get('/pdf/:model/:id', function ($model,$id) use ($app){
   $class = ucwords($model);
@@ -137,7 +137,7 @@ $app->put('/:model/:id', function ($model,$id) use ($app){
   }else{
     $app->pass();
   }
-});
+})->name('update');
 
 $app->post('/:model', function ($model) use ($app){
   $class = ucwords($model);
@@ -155,7 +155,7 @@ $app->post('/:model', function ($model) use ($app){
   }else{
     $app->pass();
   }
-});
+})->name('store');
 
 $app->delete('/:model/:id', function ($model,$id) use ($app){
   $class = ucwords($model);
@@ -173,7 +173,7 @@ $app->delete('/:model/:id', function ($model,$id) use ($app){
   }else{
     $app->pass();
   }
-});
+})->name('delete');
 
 $app->get('/', function() use ($app){
   $app->render('dashboard.html', array(
