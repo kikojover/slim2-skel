@@ -1,4 +1,59 @@
 {% extends "base.html" %}
 
 {% block main %}
-{% endblock %}
+    <form id="form_presupuesto" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method="post">
+        <input type="hidden" name="_METHOD" value="PUT" />
+        <input type="hidden" name="id" value="{{ fields["id"]}}" />
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                {% for field in cols %}
+                {% if (field != "id" and field != "created_at" and field != "updated_at") %}
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{ field }}">{{ field |trans}}
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="agent_phone" name="{{ field }}" class="form-control col-md-7 col-xs-12" value="{{ fields[field] }}">
+                  </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <button type="submit" class="btn btn-success">{{ "Save"|trans }}</button>
+                <a href="#" onclick="goback('{{ obj.id }}')" class="btn btn-primary">{{ "Back"|trans }}</a>
+            </div>
+        </div>
+
+     </form>
+<script>
+    function goback(id){
+        location.href = "{{ baseUrl() }}/{{ model }}?obj={{ obj.id }}";
+    }
+    function send_email(){
+        new PNotify({
+          title: '{{ "Info"|trans }}',
+          text: '{{ "Enviando ..."|trans }}',
+          type: 'info'
+        });
+        $.ajax({
+            url: "{{ baseUrl() }}/email/{{ model }}/{{ obj.id }}",
+            context: document.body
+        }).done(function(){
+            new PNotify({
+              title: '{{ "Success"|trans }}',
+              text: '{{ "Enviado"|trans }}',
+              type: 'success'
+            });
+        }).fail(function(){
+            new PNotify({
+              title: '{{ "Error"|trans }}',
+              text: '{{ "Algo ha fallado"|trans }}',
+              type: 'error'
+            });
+        });
+    }
+</script>
+ {% endblock %}
