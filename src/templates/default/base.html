@@ -84,6 +84,13 @@
         <div class="nav_menu">
           <nav class="" role="navigation">
             <ul class="nav navbar-nav navbar-right">
+              {% if isAdmin %}
+              <li class="">
+                <a href="{{ baseUrl() }}/settings" class="user-profile">
+                  <i class="fa fa-cog" style="font-size: 1.9em;color: #a5a9ac;"></i>
+                </a>
+              </li>
+              {% endif %}
               <li class="">
                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                   <img src="{{ baseUrl() }}/assets/images/img.jpg" alt="">{{ logged_user.first_name }} {{ logged_user.last_name}}

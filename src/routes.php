@@ -58,7 +58,6 @@ $app->get('/:model/new', function ($model) use ($app){
     }
 //    var_dump($relations);exit;
     $columns = $single->attributesToArray();
-    $single->format();
     if($app->request->isAjax()){
       $app->response->setStatus(200);
       $app->response()->headers->set('Content-Type', 'application/json');
