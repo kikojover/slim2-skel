@@ -1,4 +1,5 @@
 composer.lock
 vendor
 src/config.php
+src/config-dev.php
 /nbproject/private/
