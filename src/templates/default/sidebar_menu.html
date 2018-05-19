@@ -5,10 +5,10 @@
     <ul class="nav side-menu">
       {% for key,entry in menu %}
         {% if entry.permission == 'admin'and isAdmin %}
-          <li><a href="{{ baseUrl() }}/{{ entry.url }}"><i class="fa {{ entry.icon }}"></i> {{ key|trans }} </a>
+          <li><a href="{{ baseUrl() }}/{{ entry.url }}" {% if entry.newwindow %}target="_blank"{% endif %}><i class="fa {{ entry.icon }}"></i> {{ key|trans }} </a>
           </li>
         {% elseif entry.permission == 'users' %}
-          <li><a href="{{ baseUrl() }}/{{ entry.url }}"><i class="fa {{ entry.icon }}"></i> {{ key|trans }} </a>
+          <li><a href="{{ baseUrl() }}/{{ entry.url }}" {% if entry.newwindow %}target="_blank"{% endif %}><i class="fa {{ entry.icon }}"></i> {{ key|trans }} </a>
               </li>
         {% endif %}
       {% endfor %}

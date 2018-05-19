@@ -329,6 +329,12 @@ $app->get('/logout',function () use ($app) {
   $app->redirect($app->urlFor('login'));
 })->setName('logout');
 
+$app->get('/lostpassword',function () use ($app) {
+  $app->render('lostpassword.html', array(
+          'page_title' => 'Lost password',
+      ));
+});
+
 $app->post('/auth',function () use ($app) {
   try{
     $user = $app->sentry->authenticate(array('email' => $app->request->params('username'),'password' => $app->request->params('password')));
