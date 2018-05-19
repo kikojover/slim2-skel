@@ -12,23 +12,23 @@
 
   <!-- Bootstrap core CSS -->
 
-  <link href="{{ baseUrl() }}/assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ baseUrl() }}/assets/default/css/bootstrap.min.css" rel="stylesheet">
 
-  <link href="{{ baseUrl() }}/assets/fonts/css/font-awesome.min.css" rel="stylesheet">
-  <link href="{{ baseUrl() }}/assets/css/animate.min.css" rel="stylesheet">
+  <link href="{{ baseUrl() }}/assets/default/fonts/css/font-awesome.min.css" rel="stylesheet">
+  <link href="{{ baseUrl() }}/assets/default/css/animate.min.css" rel="stylesheet">
 
   <!-- Custom styling plus plugins -->
-  <link href="{{ baseUrl() }}/assets/css/custom.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/assets/css/maps/jquery-jvectormap-2.0.3.css" />
-  <link href="{{ baseUrl() }}/assets/css/icheck/flat/green.css" rel="stylesheet" />
-  <link href="{{ baseUrl() }}/assets/css/floatexamples.css" rel="stylesheet" type="text/css" />
+  <link href="{{ baseUrl() }}/assets/default/css/custom.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/assets/default/css/maps/jquery-jvectormap-2.0.3.css" />
+  <link href="{{ baseUrl() }}/assets/default/css/icheck/flat/green.css" rel="stylesheet" />
+  <link href="{{ baseUrl() }}/assets/default/css/floatexamples.css" rel="stylesheet" type="text/css" />
 
-  <script src="{{ baseUrl() }}/assets/js/jquery.min.js"></script>
-  <script src="{{ baseUrl() }}/assets/js/nprogress.js"></script>
+  <script src="{{ baseUrl() }}/assets/default/js/jquery.min.js"></script>
+  <script src="{{ baseUrl() }}/assets/default/js/nprogress.js"></script>
 {% block head_scripts %}{% endblock %}
 
   <!--[if lt IE 9]>
-        <script src="{{ baseUrl()}}/assets/js/ie8-responsive-file-warning.js"></script>
+        <script src="{{ baseUrl() }}/assets/default/js/ie8-responsive-file-warning.js"></script>
         <![endif]-->
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -93,7 +93,7 @@
               {% endif %}
               <li class="">
                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  <img src="{{ baseUrl() }}/assets/images/img.jpg" alt="">{{ logged_user.first_name }} {{ logged_user.last_name}}
+                  <img src="{{ baseUrl() }}/assets/default/images/img.jpg" alt="">{{ logged_user.first_name }} {{ logged_user.last_name}}
                   <span class=" user fa fa-angle-down"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -169,17 +169,17 @@
     <div id="notif-group" class="tabbed_notifications"></div>
   </div>
 
-  <script src="{{ baseUrl() }}/assets/js/bootstrap.min.js"></script>
+  <script src="{{ baseUrl() }}/assets/default/js/bootstrap.min.js"></script>
 
   <!-- bootstrap progress js -->
-  <script src="{{ baseUrl() }}/assets/js/progressbar/bootstrap-progressbar.min.js"></script>
+  <script src="{{ baseUrl() }}/assets/default/js/progressbar/bootstrap-progressbar.min.js"></script>
 
 
   <script>
     NProgress.done();
   </script>
 {% block end_js_scripts %}{% endblock %}
-  <script src="{{ baseUrl() }}/assets/js/custom.js"></script>
+  <script src="{{ baseUrl() }}/assets/default/js/custom.js"></script>
 {% include 'notifications.html' %}
 <!-- /footer content -->
 </body>
