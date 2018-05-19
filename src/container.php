@@ -63,10 +63,6 @@ $isAdmin = false;
 if($user){
   $isAdmin = $user->hasAccess('admin');
 }
-$twig_env->addGlobal('logged_user', $user);
-$twig_env->addGlobal('isAdmin', $isAdmin);
-$twig_env->addGlobal('app_name', $app->app_name);
-$twig_env->addGlobal('lang', $app->lang);
 
 $def_menu = array(
     'Users' => array(
@@ -78,3 +74,8 @@ $def_menu = array(
 $app->menu = array_merge($app->menu,$def_menu);
 
 $twig_env->addGlobal('menu', $app->menu);
+$twig_env->addGlobal('logged_user', $user);
+$twig_env->addGlobal('isAdmin', $isAdmin);
+$twig_env->addGlobal('app_name', $app->app_name);
+$twig_env->addGlobal('lang', $app->lang);
+$twig_env->addGlobal('app_theme', $app->theme);
